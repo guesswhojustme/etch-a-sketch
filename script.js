@@ -1,13 +1,68 @@
 const drawingContainer = document.getElementById('container');
-const button = document.getElementById('btn');
+const setGridBtn = document.getElementById('set-btn');
+const penBtn = document.getElementById('pen-btn');
+const eraserBtn = document.getElementById('eraser-btn');
+const clearBtn = document.getElementById('clear-btn');
+const hoverBtn = document.getElementById('hover-btn');
+
+let isEraserActive = false;
+let isPenActive = false;
+let isHoverActive = false;
+let isDrawing = false; 
+
+eraserBtn.addEventListener('click', () => {
+    isEraserActive = true;
+    isPenActive = false;
+    isHoverActive = false; 
+});
+
+penBtn.addEventListener('click', () => {
+    isPenActive = true;
+    isEraserActive = false;
+    isHoverActive = false;  
+});
+
+hoverBtn.addEventListener('click', () => {
+    isHoverActive = true;
+    isPenActive = false;
+    isEraserActive = false; 
+});
+
+clearBtn.addEventListener('click', () => {
+    location.reload();
+});
 
 function createDiv(size) {
     const gridDiv = document.createElement("div");
     gridDiv.style.width = `${size}px`;
     gridDiv.style.height = `${size}px`;
-    gridDiv.className = "divman"
-    drawingContainer.appendChild(gridDiv);    
+    gridDiv.className = "divman";
+
+    gridDiv.addEventListener('mousedown', () => {
+        if (isPenActive) {
+            isDrawing = true;
+            gridDiv.classList.add('hovered');  
+        }
+    });
+
+    gridDiv.addEventListener('mouseover', () => {
+        if (isHoverActive) {
+            gridDiv.classList.add('hovered');
+        } else if (isEraserActive) {
+            gridDiv.style.backgroundColor = ""; 
+            gridDiv.classList.remove('hovered');
+        } else if (isDrawing) {
+            gridDiv.classList.add('hovered'); 
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDrawing = false;
+    });
+
+    drawingContainer.appendChild(gridDiv);
 }
+
 
 function divDefault(){
     const size = 800 / 16; 
@@ -18,7 +73,7 @@ function divDefault(){
 
 divDefault();
 
-button.addEventListener('click', () => {
+setGridBtn.addEventListener('click', () => {
     let val = prompt("SET NUMBER OF SQUARES PERSIDE (100max)");
     while (drawingContainer.firstChild) {
         drawingContainer.removeChild(drawingContainer.firstChild);

@@ -56,7 +56,7 @@ body{
     gap: 18px;
 }
 
-#pen-btn, #brush-btn, #eraser-btn, #clear-btn{
+#pen-btn, #brush-btn, #eraser-btn, #clear-btn,#hover-btn{
     font-weight: bold;
     width: 109px;
     height: 35px;
@@ -65,6 +65,7 @@ body{
     filter: drop-shadow(0px 4px 4px #C4C4C4);
 }
 
+#hover-btn:hover{background-color: #dbdbdb;}
 #pen-btn:hover{background-color: #dbdbdb;}
 #brush-btn:hover{background-color:#dbdbdb;}
 #eraser-btn:hover{background-color:#dbdbdb;}
@@ -86,6 +87,11 @@ body{
 }
 
 #clear-btn:active{
+    background-color: #dbdbdb;
+    box-shadow: inset 3px 4px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+#hover-btn:active{
     background-color: #dbdbdb;
     box-shadow: inset 3px 4px 3px 0 rgba(0, 0, 0, 0.2);
 }
@@ -163,3 +169,7 @@ body{
 #container>div {
     border: 0.5px solid rgb(185, 185, 185);
   }
+
+.hovered{
+    background-color: black;
+}
