@@ -4,7 +4,6 @@ const penBtn = document.getElementById('pen-btn');
 const eraserBtn = document.getElementById('eraser-btn');
 const clearBtn = document.getElementById('clear-btn');
 const hoverBtn = document.getElementById('hover-btn');
-const brushBtn = document.getElementById('brush-btn');
 const rainbowBtn = document.getElementById('rainbow-btn');
 const colorInput = document.getElementById('colorPicker');
 
@@ -29,10 +28,6 @@ penBtn.addEventListener('click', () => {
     isRainbowActive = false;
 });
 
-brushBtn.addEventListener('click', () => {
-
-});
-
 hoverBtn.addEventListener('click', () => {
     isHoverActive = true;
     isPenActive = false;
@@ -41,7 +36,10 @@ hoverBtn.addEventListener('click', () => {
 });
 
 clearBtn.addEventListener('click', () => {
-    location.reload();
+    const gridCells = drawingContainer.children;
+    for (let i = 0; i < gridCells.length; i++) {
+        gridCells[i].style.backgroundColor = "";
+    }
 });
 
 rainbowBtn.addEventListener('click', () =>{
@@ -73,14 +71,17 @@ function createDiv(size) {
         } else if (isRainbowActive) {
             isDrawing = true;
             gridDiv.style.backgroundColor = getRandomColor(); 
+        } else if (isEraserActive) {
+            isDrawing = true;
+            gridDiv.style.backgroundColor = "";
         }
     });
-
+    
     gridDiv.addEventListener('mouseover', () => {
         if (isHoverActive) {
             gridDiv.style.backgroundColor = penColor;
-        } else if (isEraserActive) {
-            gridDiv.style.backgroundColor = ""; 
+        } else if (isEraserActive && isDrawing) {
+            gridDiv.style.backgroundColor = "";
         } else if (isDrawing) {
             if (isRainbowActive) {
                 gridDiv.style.backgroundColor = getRandomColor(); 
@@ -105,7 +106,6 @@ function divDefault(){
 };
 
 divDefault();
-
 setGridBtn.addEventListener('click', () => {
     let val = prompt("SET NUMBER OF SQUARES PERSIDE (100max)");
     while (drawingContainer.firstChild) {
@@ -116,10 +116,9 @@ setGridBtn.addEventListener('click', () => {
         for(i = 0; i < val * val; i++){
             createDiv(size);
         }
-    } 
-    else{
+    } else {
         divDefault();
-        alert("exceeded the limits");
+        alert("ERROR INPUT");
     }
 });
 
