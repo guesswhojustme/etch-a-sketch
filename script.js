@@ -4,55 +4,89 @@ const penBtn = document.getElementById('pen-btn');
 const eraserBtn = document.getElementById('eraser-btn');
 const clearBtn = document.getElementById('clear-btn');
 const hoverBtn = document.getElementById('hover-btn');
+const brushBtn = document.getElementById('brush-btn');
+const rainbowBtn = document.getElementById('rainbow-btn');
+const colorInput = document.getElementById('colorPicker');
 
 let isEraserActive = false;
 let isPenActive = false;
 let isHoverActive = false;
 let isDrawing = false; 
+let isRainbowActive = false; 
+let penColor = "black"; 
 
 eraserBtn.addEventListener('click', () => {
     isEraserActive = true;
     isPenActive = false;
     isHoverActive = false; 
+    isRainbowActive = false;
 });
 
 penBtn.addEventListener('click', () => {
     isPenActive = true;
     isEraserActive = false;
     isHoverActive = false;  
+    isRainbowActive = false;
+});
+
+brushBtn.addEventListener('click', () => {
+
 });
 
 hoverBtn.addEventListener('click', () => {
     isHoverActive = true;
     isPenActive = false;
     isEraserActive = false; 
+    isRainbowActive = false;
 });
 
 clearBtn.addEventListener('click', () => {
     location.reload();
 });
 
+rainbowBtn.addEventListener('click', () =>{
+    isRainbowActive = true;
+    isPenActive = false;
+    isEraserActive = false;
+    isHoverActive = false;
+});
+
+function newColor(){
+    penColor = this.value;
+}
+colorInput.addEventListener("change", newColor)
+
+function getRandomColor() {
+    const randomHue = Math.random() * 360;
+    return `hsl(${randomHue}, 70%, 80%)`;
+}
+
 function createDiv(size) {
     const gridDiv = document.createElement("div");
     gridDiv.style.width = `${size}px`;
     gridDiv.style.height = `${size}px`;
-    gridDiv.className = "divman";
 
     gridDiv.addEventListener('mousedown', () => {
         if (isPenActive) {
             isDrawing = true;
-            gridDiv.classList.add('hovered');  
+            gridDiv.style.backgroundColor = penColor;
+        } else if (isRainbowActive) {
+            isDrawing = true;
+            gridDiv.style.backgroundColor = getRandomColor(); 
         }
     });
 
     gridDiv.addEventListener('mouseover', () => {
         if (isHoverActive) {
-            gridDiv.classList.add('hovered');
+            gridDiv.style.backgroundColor = penColor;
         } else if (isEraserActive) {
             gridDiv.style.backgroundColor = ""; 
-            gridDiv.classList.remove('hovered');
         } else if (isDrawing) {
-            gridDiv.classList.add('hovered'); 
+            if (isRainbowActive) {
+                gridDiv.style.backgroundColor = getRandomColor(); 
+            } else {
+                gridDiv.style.backgroundColor = penColor;
+            }
         }
     });
 
@@ -62,7 +96,6 @@ function createDiv(size) {
 
     drawingContainer.appendChild(gridDiv);
 }
-
 
 function divDefault(){
     const size = 800 / 16; 

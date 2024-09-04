@@ -114,11 +114,10 @@ body{
     align-items: center;
 }
 
-#color-btn{
-    width: 217px;
-    height: 51px;
-    border: none;
-    border-radius: 32px;
+
+#colorPicker{
+    width: 117px;
+    height: px;
     filter: drop-shadow(0px 4px 4px #C4C4C4);
 }
 
@@ -131,7 +130,8 @@ body{
 
 #rainbow-btn{
     font-weight: bold;
-    width: 109px;
+    color: whitesmoke;
+    width: 159px;
     height: 35px;
     border-radius: 16px;
     border: none;
@@ -169,7 +169,3 @@ body{
 #container>div {
     border: 0.5px solid rgb(185, 185, 185);
   }
-
-.hovered{
-    background-color: black;
-}
