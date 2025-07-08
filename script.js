@@ -35,13 +35,6 @@ hoverBtn.addEventListener('click', () => {
     isRainbowActive = false;
 });
 
-clearBtn.addEventListener('click', () => {
-    const gridCells = drawingContainer.children;
-    for (let i = 0; i < gridCells.length; i++) {
-        gridCells[i].style.backgroundColor = "";
-    }
-});
-
 rainbowBtn.addEventListener('click', () =>{
     isRainbowActive = true;
     isPenActive = false;
@@ -49,16 +42,14 @@ rainbowBtn.addEventListener('click', () =>{
     isHoverActive = false;
 });
 
-function newColor(){
-    penColor = this.value;
-}
-colorInput.addEventListener("change", newColor)
+clearBtn.addEventListener('click', () => {
+    const gridCells = drawingContainer.children;
+    for (let i = 0; i < gridCells.length; i++) {
+        gridCells[i].style.backgroundColor = "";
+    }
+});
 
-function getRandomColor() {
-    const randomHue = Math.random() * 360;
-    return `hsl(${randomHue}, 70%, 80%)`;
-}
-
+//Creates squares base on the size of the user input
 function createDiv(size) {
     const gridDiv = document.createElement("div");
     gridDiv.style.width = `${size}px`;
@@ -76,17 +67,17 @@ function createDiv(size) {
             gridDiv.style.backgroundColor = "";
         }
     });
-    
+
     gridDiv.addEventListener('mouseover', () => {
         if (isHoverActive) {
             gridDiv.style.backgroundColor = penColor;
         } else if (isEraserActive && isDrawing) {
-            gridDiv.style.backgroundColor = "";
+                gridDiv.style.backgroundColor = "";
         } else if (isDrawing) {
             if (isRainbowActive) {
-                gridDiv.style.backgroundColor = getRandomColor(); 
+                    gridDiv.style.backgroundColor = getRandomColor(); 
             } else {
-                gridDiv.style.backgroundColor = penColor;
+                    gridDiv.style.backgroundColor = penColor;
             }
         }
     });
@@ -96,16 +87,18 @@ function createDiv(size) {
     });
 
     drawingContainer.appendChild(gridDiv);
-}
+};
 
+//Set the default size of the div
 function divDefault(){
     const size = 800 / 16; 
     for (let i = 0; i < 16 * 16; i++) {   
         createDiv(size);
     }
 };
-
 divDefault();
+
+ //Sets the number of squares
 setGridBtn.addEventListener('click', () => {
     let val = prompt("SET NUMBER OF SQUARES PERSIDE (100max)");
     while (drawingContainer.firstChild) {
@@ -122,5 +115,15 @@ setGridBtn.addEventListener('click', () => {
     }
 });
 
+function newColor(){
+    penColor = this.value;
+}
+colorInput.addEventListener("change", newColor)
+
+function getRandomColor(){
+    const randomHue = Math.random() * 360;
+    return `hsl(${randomHue}, 70%, 80%)`;
+}
+    
 
 
