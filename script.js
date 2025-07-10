@@ -7,13 +7,14 @@ const hoverBtn = document.getElementById('hover-btn');
 const rainbowBtn = document.getElementById('rainbow-btn');
 const colorInput = document.getElementById('colorPicker');
 
+//Sets default active states
 let isEraserActive = false;
 let isPenActive = false;
 let isHoverActive = false;
 let isDrawing = false; 
 let isRainbowActive = false; 
-let penColor = "black"; 
 
+//makes the Eraser button active
 eraserBtn.addEventListener('click', () => {
     isEraserActive = true;
     isPenActive = false;
@@ -21,6 +22,7 @@ eraserBtn.addEventListener('click', () => {
     isRainbowActive = false;
 });
 
+//makes the On Click button active
 penBtn.addEventListener('click', () => {
     isPenActive = true;
     isEraserActive = false;
@@ -28,6 +30,7 @@ penBtn.addEventListener('click', () => {
     isRainbowActive = false;
 });
 
+//makes the On Hover button active
 hoverBtn.addEventListener('click', () => {
     isHoverActive = true;
     isPenActive = false;
@@ -35,6 +38,7 @@ hoverBtn.addEventListener('click', () => {
     isRainbowActive = false;
 });
 
+//makes the Rainbow Mode button active
 rainbowBtn.addEventListener('click', () =>{
     isRainbowActive = true;
     isPenActive = false;
@@ -42,63 +46,22 @@ rainbowBtn.addEventListener('click', () =>{
     isHoverActive = false;
 });
 
-clearBtn.addEventListener('click', () => {
-    const gridCells = drawingContainer.children;
-    for (let i = 0; i < gridCells.length; i++) {
-        gridCells[i].style.backgroundColor = "";
-    }
-});
-
-//Creates squares base on the size of the user input
+//Creates the squares inside the container
 function createDiv(size) {
     const gridDiv = document.createElement("div");
     gridDiv.style.width = `${size}px`;
     gridDiv.style.height = `${size}px`;
-
-    gridDiv.addEventListener('mousedown', () => {
-        if (isPenActive) {
-            isDrawing = true;
-            gridDiv.style.backgroundColor = penColor;
-        } else if (isRainbowActive) {
-            isDrawing = true;
-            gridDiv.style.backgroundColor = getRandomColor(); 
-        } else if (isEraserActive) {
-            isDrawing = true;
-            gridDiv.style.backgroundColor = "";
-        }
-    });
-
-    gridDiv.addEventListener('mouseover', () => {
-        if (isHoverActive) {
-            gridDiv.style.backgroundColor = penColor;
-        } else if (isEraserActive && isDrawing) {
-                gridDiv.style.backgroundColor = "";
-        } else if (isDrawing) {
-            if (isRainbowActive) {
-                    gridDiv.style.backgroundColor = getRandomColor(); 
-            } else {
-                    gridDiv.style.backgroundColor = penColor;
-            }
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        isDrawing = false;
-    });
-
     drawingContainer.appendChild(gridDiv);
+
+    drawingOptions(gridDiv);
+
+    //clears the color of all div
+    clearBtn.addEventListener('click', () => {
+        gridDiv.style.backgroundColor = "";
+    });
 };
 
-//Set the default size of the div
-function divDefault(){
-    const size = 800 / 16; 
-    for (let i = 0; i < 16 * 16; i++) {   
-        createDiv(size);
-    }
-};
-divDefault();
-
- //Sets the number of squares
+//Creates and sets the number of squares inside the container base on user input
 setGridBtn.addEventListener('click', () => {
     let val = prompt("SET NUMBER OF SQUARES PERSIDE (100max)");
     while (drawingContainer.firstChild) {
@@ -115,11 +78,56 @@ setGridBtn.addEventListener('click', () => {
     }
 });
 
-function newColor(){
-    penColor = this.value;
-}
-colorInput.addEventListener("change", newColor)
 
+//Sets the default size of the div
+function divDefault(){
+    const size = 800 / 16; 
+    for (let i = 0; i < 16 * 16; i++) {   
+        createDiv(size);
+    }
+};
+divDefault();
+
+//Sets the behaviour of each div base on the drawing buttons clicked
+function drawingOptions(div){
+    div.addEventListener('mousedown', () => {
+        if (isPenActive) {
+            isDrawing = true;
+            div.style.backgroundColor = colors(div);
+        } else if (isRainbowActive) {
+            isDrawing = true;
+            div.style.backgroundColor = getRandomColor(); 
+        } else if (isEraserActive) {
+            isDrawing = true;
+            div.style.backgroundColor = "";
+        }
+    });
+
+    div.addEventListener('mouseenter', () => {
+        if (isHoverActive) {
+            div.style.backgroundColor = colors(div);
+        } else if (isEraserActive && isDrawing) {
+                div.style.backgroundColor = "";
+        } else if (isDrawing) {
+            if (isRainbowActive) {
+                    div.style.backgroundColor = getRandomColor(); 
+            } else {
+                    div.style.backgroundColor = colors(div);
+            }
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDrawing = false;
+    });
+}
+
+//Gets the input color
+function colors(div){
+    div.style.backgroundColor = colorInput.value;
+}
+
+//Gets random color for the rainbow mode
 function getRandomColor(){
     const randomHue = Math.random() * 360;
     return `hsl(${randomHue}, 70%, 80%)`;
