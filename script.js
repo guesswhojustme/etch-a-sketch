@@ -6,6 +6,8 @@ const clearBtn = document.getElementById('clear-btn');
 const hoverBtn = document.getElementById('hover-btn');
 const rainbowBtn = document.getElementById('rainbow-btn');
 const colorInput = document.getElementById('colorPicker');
+const fillBtn = document.getElementById('fill-btn');
+const activeMsg = document.getElementById('active-state')
 
 //Sets default active states
 let isEraserActive = false;
@@ -20,6 +22,7 @@ eraserBtn.addEventListener('click', () => {
     isPenActive = false;
     isHoverActive = false; 
     isRainbowActive = false;
+    activeMsg.textContent = "(Eraser is active)"
 });
 
 //makes the On Click button active
@@ -28,6 +31,7 @@ penBtn.addEventListener('click', () => {
     isEraserActive = false;
     isHoverActive = false;  
     isRainbowActive = false;
+    activeMsg.textContent = "(On Click is active)"
 });
 
 //makes the On Hover button active
@@ -36,6 +40,7 @@ hoverBtn.addEventListener('click', () => {
     isPenActive = false;
     isEraserActive = false; 
     isRainbowActive = false;
+    activeMsg.textContent = "(On Hover is active)"
 });
 
 //makes the Rainbow Mode button active
@@ -44,6 +49,7 @@ rainbowBtn.addEventListener('click', () =>{
     isPenActive = false;
     isEraserActive = false;
     isHoverActive = false;
+    activeMsg.textContent = "(Rainbow mode is active)"
 });
 
 //Creates the squares inside the container
@@ -58,6 +64,11 @@ function createDiv(size) {
     //clears the color of all div
     clearBtn.addEventListener('click', () => {
         gridDiv.style.backgroundColor = "";
+    });
+
+    //fills the divs inside the container with colors
+    fillBtn.addEventListener('click', () => {
+        colors(gridDiv)
     });
 };
 
@@ -133,5 +144,3 @@ function getRandomColor(){
     return `hsl(${randomHue}, 70%, 80%)`;
 }
     
-
-

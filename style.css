@@ -61,7 +61,7 @@ body{
     gap: 18px;
 }
 
-#pen-btn, #eraser-btn, #clear-btn,#hover-btn{
+#pen-btn, #eraser-btn, #clear-btn,#hover-btn, #fill-btn{
     font-weight: bold;
     width: 109px;
     height: 35px;
@@ -74,6 +74,7 @@ body{
 #pen-btn:hover{background-color: #dbdbdb;}
 #eraser-btn:hover{background-color:#dbdbdb;}
 #clear-btn:hover{background-color:#dbdbdb;}
+#fill-btn:hover{background-color:#dbdbdb;}
 
 #pen-btn:active{
     background-color: #dbdbdb;
@@ -91,6 +92,11 @@ body{
 }
 
 #hover-btn:active{
+    background-color: #dbdbdb;
+    box-shadow: inset 3px 4px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+#fill-btn:active{
     background-color: #dbdbdb;
     box-shadow: inset 3px 4px 3px 0 rgba(0, 0, 0, 0.2);
 }
@@ -113,7 +119,6 @@ body{
     align-items: center;
 }
 
-
 #colorPicker{
     width: 117px;
     height: 41px;
@@ -125,6 +130,12 @@ body{
     justify-content: center;
     padding-top: 24px;
     filter: drop-shadow(0px 4px 4px #C4C4C4);
+}
+
+.active-msg-div{
+    display: flex;
+    justify-content: center;
+    padding-top: 24px;
 }
 
 #rainbow-btn{
